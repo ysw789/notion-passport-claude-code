@@ -33,8 +33,9 @@ The common blocker is the user-scope `notion` plugin: it injects one shared
 `scripts/setup_notion_workspace.py` makes the current directory's connection
 self-contained:
 
-1. Derives a unique server name from the directory (`notion-<dir>`) unless one
-   is given.
+1. Derives a unique server name from the directory (`notion-<dir>-<hash>`,
+   where `<hash>` is a 4-char digest of the absolute path so two repos with the
+   same directory name don't collide onto one workspace) unless one is given.
 2. Picks a free, fixed OAuth **callback port** (from 8123 up), scanning ports
    already used by other `notion-*` servers so two projects never collide.
    A fixed port keeps the OAuth redirect URI stable across restarts.
