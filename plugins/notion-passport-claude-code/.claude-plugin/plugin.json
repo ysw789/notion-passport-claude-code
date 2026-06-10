@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "notion-passport",
+  "displayName": "Notion Passport",
+  "version": "0.0.1",
+  "description": "Connect each project to its own Notion workspace, so different repos don't share a single one.",
+  "author": {
+    "name": "Seungwan Yoo",
+    "url": "https://github.com/ysw789"
+  },
+  "homepage": "https://github.com/ysw789/notion-passport-claude-code",
+  "repository": "https://github.com/ysw789/notion-passport-claude-code",
+  "license": "MIT",
+  "keywords": ["notion", "mcp", "workspace", "per-project", "oauth"]
+}

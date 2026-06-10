@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "notion-passport",
+  "owner": {
+    "name": "Seungwan Yoo"
+  },
+  "description": "Connect each project to its own Notion workspace.",
+  "plugins": [
+    {
+      "name": "notion-passport",
+      "source": "./plugins/notion-passport-claude-code",
+      "description": "Give each repo its own Notion workspace instead of sharing one.",
+      "category": "productivity",
+      "keywords": ["notion", "mcp", "workspace", "per-project"]
+    }
+  ]
+}
