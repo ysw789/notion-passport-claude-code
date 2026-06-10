@@ -11,11 +11,14 @@ Usage:
     setup_notion_workspace.py [server_name] [callback_port]
 
 Both args are optional:
-    server_name    defaults to "notion-<current-dir>" (sanitized)
+    server_name    defaults to "notion-<current-dir>-<hash>" (sanitized), where
+                   <hash> is a 4-char digest of the absolute path so two repos
+                   sharing a directory name don't collide onto one workspace
     callback_port  defaults to the lowest free port from 8123 upward,
                    computed by scanning callback ports already used by
                    notion-* servers across all projects in ~/.claude.json
 """
+import hashlib
 import json
 import os
 import pathlib
@@ -58,6 +61,15 @@ def sanitize(name):
     return cleaned.strip("-").lower() or "project"
 
 
+def default_server_name(cwd):
+    # Suffix a short digest of the ABSOLUTE path so two repos with the same
+    # directory name (e.g. .../alter/backend and .../shorts/backend) get
+    # distinct server names — and thus distinct OAuth tokens / workspaces —
+    # while the same directory always resolves to the same name across runs.
+    digest = hashlib.sha256(cwd.encode()).hexdigest()[:4]
+    return f"notion-{sanitize(os.path.basename(cwd))}-{digest}"
+
+
 def run(cmd, cwd):
     return subprocess.run(cmd, cwd=cwd, capture_output=True, text=True)
 
@@ -66,7 +78,7 @@ def main():
     cwd = os.getcwd()
     cfg = load_json(CLAUDE_JSON)
 
-    name = sys.argv[1] if len(sys.argv) > 1 else f"notion-{sanitize(os.path.basename(cwd))}"
+    name = sys.argv[1] if len(sys.argv) > 1 else default_server_name(cwd)
     if len(sys.argv) > 2:
         port = int(sys.argv[2])
     else:

@@ -12,14 +12,9 @@
 
 ## 해결
 
-```
-프로젝트 간 같은 서버 이름    → 같은 OAuth 토큰    → 같은 워크스페이스
-프로젝트별 고유 서버 이름     → 독립 인증          → 각각 다른 워크스페이스
-```
+**프로젝트마다 서버 이름을 다르게 주면**, 토큰도 워크스페이스도 따로 분리됩니다. 이 플러그인의 `setup-notion-workspace` 스킬이 그 과정을 자동화합니다:
 
-이 플러그인의 `setup-notion-workspace` 스킬이 바로 그 과정을 자동화합니다:
-
-1. 현재 디렉터리에서 **고유 서버 이름**을 도출합니다 (`notion-<dir>`).
+1. 현재 디렉터리에서 **고유 서버 이름**을 도출합니다 (`notion-<dir>-<hash>` — `<hash>`는 절대 경로의 4자리 해시라, 디렉터리 이름이 같은 두 레포가 한 워크스페이스로 합쳐지지 않습니다).
 2. **비어 있는 고정 OAuth 콜백 포트**를 고릅니다 (8123부터). 다른 `notion-`* 서버가 이미 쓰는 포트를 미리 스캔해 두 프로젝트가 충돌하지 않도록 합니다.
 3. 전역 공유 `notion` 플러그인이 설치돼 있으면 **경고**합니다.
 4. 충돌하는 local-scope 서버를 제거한 뒤, 새 서버를 **local scope**에 추가합니다 (`~/.claude.json`, 이 프로젝트 전용).
@@ -46,6 +41,8 @@
 /plugin marketplace add ysw789/notion-passport-claude-code
 /plugin install notion-passport@notion-passport
 ```
+
+> `/plugin install` 도중 **설치 범위(scope)를 묻는 단계**(User / Project / Local)가 나오면 **Local** 을 선택하세요. 이 플러그인은 *프로젝트별* Notion 연결을 목적으로 하므로, 현재 프로젝트에만 설치되도록 하는 것이 맞습니다.
 
 > **요구사항:** `claude` CLI(이미 있음)와 PATH 상의 `python3`.
 
