@@ -24,13 +24,13 @@
 ## 다른 방법들과의 차이
 
 
-|               | **notion-passport-claude-code**    | 공식 `notion` 플러그인     | "Notion Pro" 멀티워크스페이스 스킬 |
-| ------------- | ---------------------------------- | -------------------- | ------------------------ |
+|               | **notion-passport-claude-code**           | 공식 `notion` 플러그인     | "Notion Pro" 멀티워크스페이스 스킬 |
+| ------------- | ----------------------------------------- | -------------------- | ------------------------ |
 | 목표            | 프로젝트별 *다른* 워크스페이스 연결 (추후 멀티 워크스페이스 지원 목표) | 어디서나 *하나의* 공유 워크스페이스 | *보조* 워크스페이스 전환           |
-| 설정 위치         | **local scope** (`~/.claude.json`) | user scope (공유)      | `.mcp.json` (레포에 커밋)     |
-| 인증            | 호스티드 **OAuth + 고정 콜백 포트**          | 호스티드 OAuth (단일)      | `.mcp.json` 편집           |
-| 다수 프로젝트 확장    | **예** — 고유 이름 + 빈 포트 자동 배정         | 아니오                  | 보조 1개 중심                 |
-| 공유 플러그인 충돌 감지 | **예**                              | —                    | —                        |
+| 설정 위치         | **local scope** (`~/.claude.json`)        | user scope (공유)      | `.mcp.json` (레포에 커밋)     |
+| 인증            | 호스티드 **OAuth + 고정 콜백 포트**                 | 호스티드 OAuth (단일)      | `.mcp.json` 편집           |
+| 다수 프로젝트 확장    | **예** — 고유 이름 + 빈 포트 자동 배정                | 아니오                  | 보조 1개 중심                 |
+| 공유 플러그인 충돌 감지 | **예**                                     | —                    | —                        |
 
 
 각 레포를 자기 워크스페이스에 격리하면서, 커밋되는 설정 없이 표준 OAuth 흐름을 쓰고 싶다면 이 플러그인이 정답입니다.
@@ -42,25 +42,14 @@
 /plugin install notion-passport@notion-passport
 ```
 
-> `/plugin install` 도중 **설치 범위(scope)를 묻는 단계**(User / Project / Local)가 나오면 **Local** 을 선택하세요. 이 플러그인은 *프로젝트별* Notion 연결을 목적으로 하므로, 현재 프로젝트에만 설치되도록 하는 것이 맞습니다.
-
 > **요구사항:** `claude` CLI(이미 있음)와 PATH 상의 `python3`.
 
 ## 사용법
 
-연결하려는 프로젝트에서 Claude Code에게 "이 레포에 노션 워크스페이스 붙여줘" / "connect this project to Notion" 처럼 말하면 스킬이 자동으로 트리거됩니다.
+연결하려는 프로젝트에서 다음 중 한 가지 방법으로 Notion 워크스페이스를 연결합니다.
 
-또는 스크립트를 직접 실행할 수도 있습니다:
-
-```bash
-python3 "${CLAUDE_PLUGIN_ROOT}/skills/setup-notion-workspace/scripts/setup_notion_workspace.py"
-```
-
-선택적 오버라이드 (서버 이름, 콜백 포트):
-
-```bash
-python3 "${CLAUDE_PLUGIN_ROOT}/skills/setup-notion-workspace/scripts/setup_notion_workspace.py" notion-myrepo 8130
-```
+- **슬래시 명령** — `/setup-notion-workspace` 를 실행합니다.
+- **자연어로 요청** — Claude Code에게 "이 레포에 노션 워크스페이스 붙여줘" / "connect this project to Notion" 처럼 말하면 스킬이 자동으로 트리거됩니다.
 
 ### 실행 후 (대화형 — 직접 해야 하는 단계)
 
